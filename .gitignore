@@ -1,0 +1,6 @@
+*.json
+*.jsonl
+/venv
+.DS_Store
+sportradar-wisd_accessKeys.csv
+sportradar-wisd-data-access-instruction.txt
