@@ -1,0 +1,66 @@
+h1{
+   
+    /* font-family: 'Cabin', sans-serif; */
+    font-family: 'Outfit';
+    /* font-family: 'Poppins', sans-serif; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 88px; 
+    padding: 10px 55px 0 0;
+    margin: 50px 80px 0 0;
+    color: white;
+    
+}
+
+h2{
+    font-family: 'Outfit';
+    /* font-family: 'Poppins', sans-serif; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 80px 0 5px;
+    color: white;
+
+}
+.header{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    padding: 0 0 10px 100px;
+    
+     
+   
+
+}
+
+.court{
+    /* background-color: rgba(0, 0, 0, 0.274); */
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    display: table;
+    margin: 0 auto;
+
+    
+    padding: 10%;
+    border-radius: 12px;
+}
+
+body{
+    margin: 0;
+    padding-bottom: 300px;
+    
+    background: linear-gradient(217deg, rgba(7, 8, 71, 0.8), rgba(255,0,0,0) 70.71%),
+                linear-gradient(127deg, rgba(84, 144, 255, 0.8), rgba(0,255,0,0) 70.71%),
+                linear-gradient(336deg, rgba(251, 253, 124, 0.8), rgba(0,0,255,0) 70.71%);
+  
+}
+
+
+svg{
+   
+    justify-content: center;
+}
