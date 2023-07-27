@@ -42,7 +42,7 @@ const background = svg.node().append(court);
 svg.append("circle")  
     .attr("r", 20)                     
     .attr("cx", xScale(-23.5))
-    .attr("cy", yScale(-12.5))
+    .attr("cy", yScale(0))
     .attr("fill", "blue")
 const circles = svg.selectAll("circle")
    .data(playerNames)
