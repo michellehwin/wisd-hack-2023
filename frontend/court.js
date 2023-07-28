@@ -13,6 +13,11 @@
 const xScale = d3.scaleLinear().domain([-47, 47]).range([0, 1125])
 const yScale = d3.scaleLinear().domain([-25, 25]).range([598, 0])
 
+const sampleData = [{"type": "home", 
+                     "number": 13, 
+                     "coords": [[1.92,-1.08], [1.92,-1.08], [1.92,-1.11], [1.92,-1.13],[1.92,-1.16], [1.92,-1.19], [1.92,-1.22], [1.92,-1.25], [1.92,-1.28], [1.91,-1.31]]}
+]
+
 const playerNames = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 const document = await d3.xml("courtFinal.xml");
@@ -28,9 +33,6 @@ const svg = d3.select(".court")
 
                 
 const background = svg.node().append(court);
-
-
-   
 
    d3.select("body").selectAll("h2")
      .data(playerNames)
@@ -52,6 +54,9 @@ const circles = svg.selectAll("circle")
    .attr("cx", (d, i) => i * 50)
    .attr("cy", (d) => d * 20)
    .attr("fill", "white")
+
+
+
                 
 
 
