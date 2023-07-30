@@ -127,21 +127,43 @@ const svg = d3.select(".court")
 .attr("width", WIDTH)
 .attr("height", HEIGHT);
 
-async function loadCourt(){
-    const document = d3.xml("courtFinal.xml");
-    const court = document.documentElement;
-    document.addEventListener("DOMContentLoaded", function() {
-        const background = svg.node().append(court);
-      });
-   
-}
 
-
-
-
-
-
-
+async function loadCourt() {
+    try {
+      const document = await d3.xml("courtFinal.xml");
+      const court = document.documentElement;
+      svg.node().append(court);
+    
+    } catch (error) {
+      console.error("Error loading court:", error);
+    }
+  }
+  
+  // If this code is inside an async function, you can use await:
+  // await loadCourt();
+  
+  // If this code is not inside an async function, you can use then():
+ await loadCourt();
+const circleGroup = svg.append("g");
+const circles = circleGroup.selectAll("circle")
+                           .data(sampleData)
+                           .join(enter => enter.append("circle")
+                           .attr("r", 15)                     
+                           .attr("cx", (d) => xScale(d.coords[0][0]))
+                           .attr("cy", (d) => yScale(d.coords[0][1]))
+                            .attr("fill", (d) => d.color))
+                            moveCircles();
+  const textLabels = circleGroup.selectAll("text")
+                                .data(sampleData)
+                                .join("text")
+                                .attr("x", (d) => xScale(d.coords[0][0])) // x-coordinate same as circle's cx
+                                .attr("y", (d) => yScale(d.coords[0][1])) // y-coordinate same as circle's cy
+                                .text((d) => d.number) // The text content, you can modify this according to your data
+                                .style("text-anchor", "middle") // Center the text horizontally
+                                .style("dominant-baseline", "central") // Center the text vertically
+                                .style("font-size", "15px") // Set font size (modify as needed)
+                                .style("fill", "white"); // Set text color (modify as needed)
+                                moveText();
 
 const homePlayers= d3.select(".home").selectAll("h3")
      .data(sampleData)
@@ -184,32 +206,6 @@ function moveCircles() {
                     console.log(d.coords[i][1])
             }
         })};
-const circleGroup = svg.append("g");
-const circles = circleGroup.selectAll("circle")
-                           .data(sampleData)
-                           .join(enter => enter.append("circle")
-                           .attr("r", 15)                     
-                           .attr("cx", (d) => xScale(d.coords[0][0]))
-                           .attr("cy", (d) => yScale(d.coords[0][1]))
-                            .attr("fill", (d) => d.color))
-                           moveCircles();
-
-                           
-
-
-const textLabels = circleGroup.selectAll("text")
-                                .data(sampleData)
-                                .join("text")
-                                .attr("x", (d) => xScale(d.coords[0][0])) // x-coordinate same as circle's cx
-                                .attr("y", (d) => yScale(d.coords[0][1])) // y-coordinate same as circle's cy
-                                .text((d) => d.number) // The text content, you can modify this according to your data
-                                .style("text-anchor", "middle") // Center the text horizontally
-                                .style("dominant-baseline", "central") // Center the text vertically
-                                .style("font-size", "15px") // Set font size (modify as needed)
-                                .style("fill", "white"); // Set text color (modify as needed)
-                                moveText();
-                                
-
 
 function moveText() {
     textLabels
@@ -251,6 +247,7 @@ function changeTeamNames(homeGame){
 
 }
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("Dom is")
     const dropdown = document.getElementById('gameDropdown');
         const elementToUpdate = document.getElementById('homeDiv');
         console.log("drop down selected")
