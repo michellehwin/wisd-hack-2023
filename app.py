@@ -4,6 +4,11 @@ import json
 
 app = Flask(__name__)
 
+# to run:
+# create venv if you havent already
+# source ./venv/bin/activate (activate venv)
+# pip install -r requirements.txt
+# flask run
 
 @app.route("/coords")
 def hello_world():
