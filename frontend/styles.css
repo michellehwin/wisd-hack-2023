@@ -7,8 +7,8 @@ h1{
     flex-direction: column;
     justify-content: center;
     font-size: 88px; 
-    padding: 10px 55px 0 0;
-    margin: 50px 80px 0 0;
+    padding: 5px 55px 0 0;
+    margin: 25px 80px 0 0;
     color: white;
     
 }
@@ -65,22 +65,59 @@ button{
     height: 50px;
     font-size: 20px;
 }
+span {
+    font-family: 'Outfit';
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+select{
+    border-radius: 5px;
+    border-style: hidden;
+    background-color: rgba(15, 15, 75, 0.741);
+    color: white;
+    font-size: 15px;
+    font-family: 'Outfit';
+    
+ 
+}
+
+.col {
+    width: 30%;
+    height: 30%;
+    display:inline-block;
+    float:left;
+    padding-right: 100px;
+}
+
+.dropdowns {
+    width: 100%;
+    height: 100%;
+    padding: 0 0 10px 0; 
+    margin: 30px 40px 0 0px;
+}
 .header{
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-items: center;
-    padding: 0 0 10px 100px;
+    padding: 0 0 40px 10%;
     
      
    
 
 }
+.tools{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10% 0 10%;
+}
 .button-container{
-    padding-bottom: 10px;
- 
-    
+    padding: 0 0 10px 0; 
+    margin: 0px 40px 0 0px;
 }
 
 .court{
@@ -92,7 +129,7 @@ button{
     margin: 0 auto;
 
     
-    padding: 5% 10% 0 10%;
+    padding: 0 10% 0 10%;
 }
 
 .info{

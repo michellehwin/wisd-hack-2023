@@ -26,16 +26,63 @@
 
     </div>
 
+<div class="tools">
+    <div class = 'dropdowns'>
+        <div class="row">
+            <div class="col">
+                <span>Choose Game: </span>
+                <select class="form-select" aria-label="Select the game to analyze"
+                    oninput="handleGame(this.value)" style="display: inline; width: max-content">
+                    <option value="0042100301" selected>May 17: Boston Celtics @ Miami Heat </option>
+                    <option value="0042100302">May 19: Boston Celtics @ Miami Heat </option>
+                    <option value="0042100303">May 21: Miami Heat @ Boston Celtics</option>
+                    <option value="0042100304">May 23: Miami Heat @ Boston Celtics</option>
+                    <option value="0042100305">May 25: Boston Celtics @ Miami Heat</option>
+                    <option value="0042100306">May 27: Miami Heat @ Boston Celtics</option>
+                    <option value="0042100307">May 29: Boston Celtics @ Miami Heat </option>
+
+                    <option value="0042100311">May 18: Dallas Mavericks @ Golden State Warriors</option>
+                    <option value="0042100312">May 20: Dallas Mavericks @ Golden State Warriors</option>
+                    <option value="0042100313">May 22: Golden State Warriors @ Dallas Mavericks</option>
+                    <option value="0042100314">May 24: Golden State Warriors @ Dallas Mavericks</option>
+                    <option value="0042100315">May 26: Dallas Mavericks @ Golden State Warriors</option>
+
+                    <option value="0042100401">June 2: Boston Celtics @ Golden State Warriors </option>
+                    <option value="0042100402">June 5: Boston Celtics @ Golden State Warriors </option>
+                    <option value="0042100403">June 8: Golden State Warriors @ Boston Celtics</option>
+                    <option value="0042100404">June 10: Golden State Warriors @ Boston Celtics</option>
+                    <option value="0042100405">June 13: Boston Celtics @ Golden State Warriors</option>
+                    <option value="0042100406">June 16: Golden State Warriors @ Boston Celtics</option>
+                </select>
+            </div>
+            <div class="col">
+                <span>Top Plays: </span>
+                <select class="form-select" id="team" aria-label="Select the team to analyze"
+                    oninput="handleTeam(this.value)" style="display: inline; width: 180px;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="button-container">
+            <script src="court.js"></script>
+            <button>Replay  🔁</button>
+        </div>
+    </div>
+</div>
     
     <div class="container">
-        
-
         <div class="court">
-            <div class="button-container">
-                <script src="court.js"></script>
-                <button>Replay  🔁</button>
-            </div>
-
         </div>
     </div>
     
