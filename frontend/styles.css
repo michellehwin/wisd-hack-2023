@@ -47,10 +47,6 @@ text{
     padding-left: 20px;
     background: fixed;
     background-color: rgb(0, 92, 173)
-    
- 
-    
-
 }
 
 
@@ -80,8 +76,6 @@ select{
     color: white;
     font-size: 15px;
     font-family: 'Outfit';
-    
- 
 }
 
 .col {
@@ -105,9 +99,6 @@ select{
     flex-direction: column;
     justify-items: center;
     padding: 0 0 40px 10%;
-    
-     
-   
 
 }
 .tools{
@@ -152,7 +143,7 @@ select{
 
 body{
     margin: 0;
-    padding-bottom: 300px;
+    padding-bottom: 50px;
     
     background: linear-gradient(217deg, rgba(7, 8, 71, 0.8), rgba(255,0,0,0) 70.71%),
                 linear-gradient(127deg, rgba(84, 144, 255, 0.8), rgba(0,255,0,0) 70.71%),

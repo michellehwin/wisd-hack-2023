@@ -31,8 +31,9 @@
         <div class="row">
             <div class="col">
                 <span>Choose Game: </span>
-                <select class="form-select" aria-label="Select the game to analyze"
-                    oninput="handleGame(this.value)" style="display: inline; width: max-content">
+                <select id="gameDropdown" class="form-select"  aria-label="Select the game to analyze"
+                     style="display: inline; width: max-content">
+                     <script type="module" src="court.js"></script>
                     <option value="0042100301" selected>May 17: Boston Celtics @ Miami Heat </option>
                     <option value="0042100302">May 19: Boston Celtics @ Miami Heat </option>
                     <option value="0042100303">May 21: Miami Heat @ Boston Celtics</option>
@@ -58,7 +59,7 @@
             <div class="col">
                 <span>Top Plays: </span>
                 <select class="form-select" id="team" aria-label="Select the team to analyze"
-                    oninput="handleTeam(this.value)" style="display: inline; width: 180px;">
+                  style="display: inline; width: 180px;">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -87,7 +88,7 @@
     </div>
     
     <div class="info">
-        <div class = "home">
+        <div id="homeDiv" class="home" >
             <h2>HOME PLAYERS: </h2>
         </div>
         <div class = "away">

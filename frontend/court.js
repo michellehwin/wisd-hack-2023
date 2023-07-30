@@ -7,8 +7,7 @@
 
 //Court dimensions in pixels
 
-const document = await d3.xml("courtFinal.xml");
-const court = document.documentElement
+
 const WIDTH = 1125;
 const HEIGHT = 598;
 
@@ -123,13 +122,25 @@ const sampleData = [{"type": "home",
                      }
                     ]
 
-
 const svg = d3.select(".court")
-                .append("svg")
-                .attr("width", WIDTH)
-                .attr("height", HEIGHT);
+.append("svg")
+.attr("width", WIDTH)
+.attr("height", HEIGHT);
 
-const background = svg.node().append(court);
+async function loadCourt(){
+    const document = d3.xml("courtFinal.xml");
+    const court = document.documentElement;
+    document.addEventListener("DOMContentLoaded", function() {
+        const background = svg.node().append(court);
+      });
+   
+}
+
+
+
+
+
+
 
 
 const homePlayers= d3.select(".home").selectAll("h3")
@@ -149,9 +160,30 @@ const awayPlayers = d3.select(".away")
                       .text(function(d){
                                 if (d.type == "away"){
                                     return d.number
-                                }});
+                                }});                
 
-
+function moveCircles() {
+    circles
+        .attr("cx", (d) => xScale(d.coords[0][0]))
+        .attr("cy", (d) => yScale(d.coords[0][1]))
+        .each(function(d) {
+                d3.select(this)
+                    .interrupt()
+                    .attr("cx", (d) => xScale(d.coords[0][0]))
+                    .attr("cy", (d) => yScale(d.coords[0][1]))
+                
+                for (let i = 0; i < d.coords.length; i++) {
+                d3.select(this).transition()
+                    .ease(d3.easeLinear)
+                    .ease(d3.easeSinOut)
+                    .duration(3000)
+                    .attr("cx", xScale(d.coords[i][0]))
+                    .attr("cy", yScale(d.coords[i][1]));
+                    console.log(i)
+                    console.log(d.coords[i][0])
+                    console.log(d.coords[i][1])
+            }
+        })};
 const circleGroup = svg.append("g");
 const circles = circleGroup.selectAll("circle")
                            .data(sampleData)
@@ -159,7 +191,7 @@ const circles = circleGroup.selectAll("circle")
                            .attr("r", 15)                     
                            .attr("cx", (d) => xScale(d.coords[0][0]))
                            .attr("cy", (d) => yScale(d.coords[0][1]))
-                           .attr("fill", (d) => d.color))
+                            .attr("fill", (d) => d.color))
                            moveCircles();
 
                            
@@ -179,54 +211,29 @@ const textLabels = circleGroup.selectAll("text")
                                 
 
 
-                           
 function moveText() {
     textLabels
         .attr("x", (d) => xScale(d.coords[0][0]))
         .attr("y", (d) => yScale(d.coords[0][1]))
         .each(function(d) {
-                d3.select(this)
-                    .interrupt()
-                    .attr("x", (d) => xScale(d.coords[0][0]))
-                    .attr("y", (d) => yScale(d.coords[0][1]))
-                
-                for (let i = 0; i < d.coords.length; i++) {
-                d3.select(this).transition()
-                    .ease(d3.easeLinear)
-                    .ease(d3.easeSinOut)
-                    .duration(3000)
-                    .attr("x", xScale(d.coords[i][0]))
-                    .attr("y", yScale(d.coords[i][1]));
-                    console.log(i)
-                    console.log(d.coords[i][0])
-                    console.log(d.coords[i][1])
-            }
-        })};
+        d3.select(this)
+            .interrupt()
+            .attr("x", (d) => xScale(d.coords[0][0]))
+            .attr("y", (d) => yScale(d.coords[0][1]));
     
-
- function moveCircles() {
-    circles
-      .attr("cx", (d) => xScale(d.coords[0][0]))
-      .attr("cy", (d) => yScale(d.coords[0][1]))
-      .each(function(d) {
-                d3.select(this)
-                  .interrupt()
-                  .attr("cx", (d) => xScale(d.coords[0][0]))
-                  .attr("cy", (d) => yScale(d.coords[0][1]))
-                
-                for (let i = 0; i < d.coords.length; i++) {
-                d3.select(this).transition()
-                    .ease(d3.easeLinear)
-                    .ease(d3.easeSinOut)
-                    .duration(3000)
-                    .attr("cx", xScale(d.coords[i][0]))
-                    .attr("cy", yScale(d.coords[i][1]));
-                    console.log(i)
-                    console.log(d.coords[i][0])
-                    console.log(d.coords[i][1])
-            }
+        for (let i = 0; i < d.coords.length; i++) {
+            d3.select(this).transition()
+            .ease(d3.easeLinear)
+            .ease(d3.easeSinOut)
+            .duration(3000)
+            .attr("x", xScale(d.coords[i][0]))
+            .attr("y", yScale(d.coords[i][1]));
+            console.log(i);
+            console.log(d.coords[i][0]);
+            console.log(d.coords[i][1]);
+        }
         });
-
+    }
 const button = d3.select("button");
 
 button.on("click", function () {
@@ -234,120 +241,42 @@ button.on("click", function () {
     moveText();
     console.log("Clicking");
 });
+    
+
+
+function changeTeamNames(homeGame){
+    d3.select(".home").selectAll("h2")
+                      .append("h2")
+                      .text(homeGame);
 
 }
-        
-//TODO: FIX THIS EDIT
-// circles.transition()
+document.addEventListener("DOMContentLoaded", function() {
+    const dropdown = document.getElementById('gameDropdown');
+        const elementToUpdate = document.getElementById('homeDiv');
+        console.log("drop down selected")
+        dropdown.addEventListener('change', function(){
+            var gameID = dropdown.value;
 
-//        .duration(1000)
-//        .attr("cx", (d) => xScale(d.coords[0][0]))
-//        .attr("cy", (d) => yScale(d.coords[0][1]))
-//        .each(function(d) {
-//         const circle = d3.select(this);
-//         const coords = d.coords;
-//         for (let i = 0; i < coords.length; i++) {
-//         circle.transition()
-//             .ease(d3.easeLinear)
-//             .ease(d3.easeSinOut)
-//             .duration(3000)
-//             .attr("cx", xScale(coords[i][0]))
-//             .attr("cy", yScale(coords[i][1]));
-//             console.log(i)
-//             console.log(coords[i][0])
-//             console.log(coords[i][1])
-//     }
-// });
-
-//THIS ONE IS THE WORKING ONE
-// export function moveCircles(){
-//     circles.transition()
-
-//        .duration(1000)
-//        .attr("cx", (d) => xScale(d.coords[0][0]))
-//        .attr("cy", (d) => yScale(d.coords[0][1]))
-//        .each(function(d) {
-//         const circle = d3.select(this);
-//         const coords = d.coords;
-//         for (let i = 0; i < coords.length; i++) {
-//         circle.transition()
-//             .ease(d3.easeLinear)
-//             .ease(d3.easeSinOut)
-//             .duration(3000)
-//             .attr("cx", xScale(coords[i][0]))
-//             .attr("cy", yScale(coords[i][1]));
-//             console.log(i)
-//             console.log(coords[i][0])
-//             console.log(coords[i][1])
-//     }
-// });
-
+            console.log(gameID)
+            var homeGame = "";
+            var awayGame = "";
+            switch (gameID){
+                case "0042100301":
+                    console.log("changing names");
+                    homeGame= "Miami Heat";
+                    elementToUpdate.innerHTML = "Home Team: " + homeGame;
+            
+                    break;
     
-//     }
-
-// export function moveCircles() {
-//     // Select all circles and animate each one separately
-//     circles.each(function (d, i) {
-//       const circle = d3.select(this);
-//       const coords = d.coords;
-  
-//       // Animate each circle separately
-//       circle
-//         .attr("cx", xScale(coords[0][0]))
-//         .attr("cy", yScale(coords[0][1]))
-//         .transition()
-//         .ease(d3.easeLinear)
-//         .ease(d3.easeSinOut)
-//         .duration(3000)
-//         .attr("cx", function(d){
-//             for (let i = 0; i < coords.length; i++){
-//                 console.log(coords[i][0])
-//                 return xScale(coords[i][0])
-//             }
-//         })
-//         .attr("cy", function(d){
-//             for (let i = 0; i < coords.length; i++){
-//                 console.log(coords[i][1])
-//                 return yScale(coords[i][1])
-//             }
-//         })
-//         .on("end", function () {
-//           console.log("Animation completed for circle " + i);
-//         });
-//     });
-//   }
-  
-
-  
-
-// }
-
-// const button = d3.select("button")
-// button.on("click", function(d){
-//     circles.transition().on("end", moveCircles())
-//     moveCircles();
-//     console.log("clicking")
-// })
-
-//this one works but it does not iterate through every point
-// export function moveCircles() {
-//     circles
-//       .attr("cx", (d) => xScale(d.coords[0][0]))
-//       .attr("cy", (d) => yScale(d.coords[0][1]))
-//       .transition()
-//       .ease(d3.easeLinear)
-//       .ease(d3.easeSinOut)
-//       .duration(3000)
-//       .attr("cx", function(d){
-//           console.log(d.coords[d.coords.length - 1][0])
-//           return xScale(d.coords[d.coords.length - 1][0])
-//       })
-//       //.attr("cx", (d) => xScale(d.coords[d.coords.length - 1][0]))
-//       .attr("cy", (d) => yScale(d.coords[d.coords.length - 1][1]))
-//   };
-  
+    
+            }
+        })
+})
 
 
+
+
+        
 
 
 
