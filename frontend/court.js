@@ -83,30 +83,38 @@ function renderPlayers(playerData) {
         .style("text-anchor", "middle");
         
     moveText(textLabels);
-    const homePlayers = d3.select(".home").selectAll("h3")
-        .data(playerData)
-        .enter()
+    updatePlayerText();
+
+}
+
+function updatePlayerText(){
+    const awayPlayers = d3.select(".away")
+        .selectAll("h3")
+        .data(playerData);
+    awayPlayers.enter()
+        .append("h3")
+        .text(function (d) {
+            if (d.type == "away") {
+                return d.number;
+            }});
+    awayPlayers.text(function (d) {
+        if (d.type == "away") {
+            return d.number;
+        }});
+        const homePlayers = d3.select(".home")
+        .selectAll("h3")
+        .data(playerData);
+    homePlayers.enter()
         .append("h3")
         .text(function (d) {
             if (d.type == "home") {
                 return d.number;
-            }
-        });
-
-    const awayPlayers = d3.select(".away")
-        .selectAll("h3")
-        .data(playerData)
-        .enter()
-        .append("h3")
-        .text(function (d) {
-            if (d.type == "away") {
-                console.log(playerData)
-                console.log((d) => d.number)
-    
+            }});
+    homePlayers.text(function (d) {
+            if (d.type == "home") {
                 return d.number;
-            }
-        });
-    console.log('players rendered');
+            }});
+    
 }
 
 
