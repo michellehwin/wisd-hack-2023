@@ -1,7 +1,11 @@
 from flask import Flask, request
+from flask_cors import CORS
+
 import json
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # to run:
 # create venv if you havent already
@@ -10,7 +14,7 @@ app = Flask(__name__)
 # flask run
 
 @app.route("/coords")
-def hello_world():
+def get_player_coords():
     game_id = request.args.get('game_id')
 
     # play_rank can be 1-10, 1 being best play
