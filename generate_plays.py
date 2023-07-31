@@ -378,6 +378,8 @@ for game_id in game_ids:
             ast.literal_eval)
         play_coords_df['awayPlayers_tracking'] = play_coords_df['awayPlayers_tracking'].apply(
             ast.literal_eval)
+        play_coords_df['ball'] = play_coords_df['ball'].apply(
+            ast.literal_eval)
 
         # method to aggregate the data for visualization, organizing by player instead of by play
         def coords_by_player(team, color):
@@ -401,10 +403,20 @@ for game_id in game_ids:
                 jersey, playerId), xyz_list in player_dict.items()]
             return all_coords_list
 
+        # method to aggregate the data for visualization, organizing by player instead of by play
+        def ball_coords():
+            xyz_list = []
+            for _, row in play_coords_df.iterrows():
+                tracking_info = row['ball']
+                xyz_list.append(tracking_info)
+            # Converting the dictionary to a list of dictionaries for each player
+            all_coords_list = [
+                {'type': 'ball', 'color': 'orange', 'coords': xyz_list}]
+            return all_coords_list
+
         # dictionary mapping from the gameClock of the best shot to the players and their location data
         top_ten_play_coords_by_player[shot_rank] = coords_by_player(
-            'home', 'blue') + coords_by_player('away', 'red')
+            'home', 'blue') + coords_by_player('away', 'red') + ball_coords()
         shot_rank += 1
     with open(f"./play_coords/{game_id}_coords_by_player.json", "w") as outfile:
         json.dump(top_ten_play_coords_by_player, outfile)
-
