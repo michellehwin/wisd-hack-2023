@@ -1,18 +1,12 @@
 
 
-//import { playerData } from "/Users/jennifertran/Desktop/hack/wisd-hack-2023/frontend/data/0042100301_p1.js";
-
-//import { playerData } from "./data/0042100301_p1";
 
 
 //Court dimensions in pixels
-
-
 const WIDTH = 1125;
 const HEIGHT = 598;
 
 //scaling svg to data
-
 const xScale = d3.scaleLinear().domain([-47, 47]).range([0, 1125]);
 const yScale = d3.scaleLinear().domain([-25, 25]).range([598, 0]);
 
@@ -62,10 +56,8 @@ async function loadCourt() {
     }
 }
 
-// If this code is inside an async function, you can use await:
-// await loadCourt();
 
-// If this code is not inside an async function, you can use then():
+
 await loadCourt();
 renderPlayers(playerData)
 
@@ -82,17 +74,18 @@ function renderPlayers(playerData) {
     const textLabels = circleGroup.selectAll("text")
         .data(playerData)
         .join("text")
-        .attr("x", (d) => xScale(d.coords[0][0])) // x-coordinate same as circle's cx
-        .attr("y", (d) => yScale(d.coords[0][1])) // y-coordinate same as circle's cy
-        .text((d) => d.number) // The text content, you can modify this according to your data
-        .style("text-anchor", "middle") // Center the text horizontally
-        .style("dominant-baseline", "central") // Center the text vertically
-        .style("font-size", "15px") // Set font size (modify as needed)
-        .style("fill", "white"); // Set text color (modify as needed)
+        .attr("x", (d) => xScale(d.coords[0][0])) 
+        .attr("y", (d) => yScale(d.coords[0][1])) 
+        .text((d) => d.number) 
+        .style("fill", "white")
+        .style("font-size", "15px") 
+        .style("dominant-baseline", "central") 
+        .style("text-anchor", "middle");
+        
     moveText(textLabels);
     const homePlayers = d3.select(".home").selectAll("h3")
         .data(playerData)
-        .join("h3")
+        .enter()
         .append("h3")
         .text(function (d) {
             if (d.type == "home") {
@@ -103,10 +96,13 @@ function renderPlayers(playerData) {
     const awayPlayers = d3.select(".away")
         .selectAll("h3")
         .data(playerData)
-        .join("h3")
+        .enter()
         .append("h3")
         .text(function (d) {
             if (d.type == "away") {
+                console.log(playerData)
+                console.log((d) => d.number)
+    
                 return d.number;
             }
         });
@@ -145,17 +141,16 @@ function moveText(textLabels) {
         .attr("y", (d) => yScale(d.coords[0][1]))
         .each(function (d) {
             d3.select(this)
-                .interrupt()
                 .attr("x", (d) => xScale(d.coords[0][0]))
                 .attr("y", (d) => yScale(d.coords[0][1]));
 
             for (let i = 0; i < d.coords.length; i++) {
                 d3.select(this).transition()
-                    .ease(d3.easeLinear)
-                    .ease(d3.easeSinOut)
                     .duration(3000)
                     .attr("x", xScale(d.coords[i][0]))
-                    .attr("y", yScale(d.coords[i][1]));
+                    .attr("y", yScale(d.coords[i][1]))
+                    .ease(d3.easeLinear)
+                    .ease(d3.easeSinOut);
                 // console.log(i);
                 // console.log(d.coords[i][0]);
                 // console.log(d.coords[i][1]);
@@ -172,32 +167,129 @@ replayButton.on("click", async function () {
 
 
 
-function changeTeamNames(homeGame) {
-    d3.select(".home").selectAll("h2")
-        .append("h2")
-        .text(homeGame);
-
+function handleDropdownChange(event) {
+    const selectedValue = event.target.value;
+    var homeGame = "";
+    var awayGame = "";
+    const homeText= document.getElementById('home-h2');
+    const awayText= document.getElementById('away-h2');
+    console.log('Dropdown changed to:', selectedValue);
+    switch (selectedValue){
+                case "0042100301":
+                    console.log("changing names");
+                    homeGame= "Miami Heat";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100302":
+                    console.log("changing names");
+                    homeGame= "Miami Heat";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100303":
+                    homeGame= "Boston Celtics";
+                    awayGame= "Miami Heat";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100304":
+                    homeGame= "Boston Celtics";
+                    awayGame= "Miami Heat";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100305":
+                    homeGame= "Miami Heat";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100306":
+                    homeGame= "Boston Celtics";
+                    awayGame= "Miami Heat";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100307":
+                    homeGame= "Miami Heat";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100311":
+                    homeGame= "Golden State Warriors";
+                    awayGame="Dallas Mavericks";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100312":
+                    homeGame= "Golden State Warriors";
+                    awayGame="Dallas Mavericks";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100313":
+                    homeGame= "Dallas Mavericks";
+                    awayGame="Golden State Warriors";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100314":
+                    homeGame= "Dallas Mavericks";
+                    awayGame="Golden State Warriors";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100315":
+                    homeGame= "Golden State Warriors";
+                    awayGame="Dallas Mavericks";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100401":
+                    homeGame= "Golden State Warriors";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100402":
+                    homeGame= "Golden State Warriors";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100403":
+                    homeGame= "Boston Celtics";
+                    awayGame="Golden State Warriors";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100404":
+                    homeGame= "Boston Celtics";
+                    awayGame="Golden State Warriors";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100405":
+                    homeGame= "Golden State Warriors";
+                    awayGame="Boston Celtics";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+                case "0042100406":
+                    homeGame= "Boston Celtics";
+                    awayGame="Golden State Warriors";
+                    homeText.innerHTML = "HOME TEAM: " + homeGame;
+                    awayText.innerHTML = "AWAY TEAM: " + awayGame;
+                    break;
+  }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("Dom is");
-    const dropdown = document.getElementById('gameDropdown');
-    const elementToUpdate = document.getElementById('homeDiv');
-    console.log("drop down selected");
-    dropdown.addEventListener('change', function () {
-        var gameID = dropdown.value;
-        console.log(gameID);
-        var homeGame = "";
-        var awayGame = "";
-        switch (gameID) {
-            case "0042100301":
-                console.log("changing names");
-                homeGame = "Miami Heat";
-                elementToUpdate.innerHTML = "Home Team: " + homeGame;
-                break;
-        }
-    });
-})
+  
+const dropdown = document.getElementById('gameDropdown');
+dropdown.addEventListener('change', handleDropdownChange);
 
 
 
