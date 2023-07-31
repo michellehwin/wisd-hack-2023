@@ -14,5 +14,5 @@ This venv setup is written for mac, but the process is very similar on Windows. 
 export AWS_ACCESS_KEY_ID=KEY
 export AWS_SECRET_ACCESS_KEY=KEY
 ```
-## Running the server
+
 To spin up the server locally, run `make run`. This will generate all necessary backend files that we use. This will also start the backend flask server. You only need to run `make run` once. After, you can just run `flask run`.
