@@ -26,13 +26,12 @@ h2{
 
 h3{
     font-family: 'Outfit';
-    /* font-family: 'Poppins', sans-serif; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 0 80px 0 5px;
     color: white;
-    font-size: 30px;
+    font-size: 1.5rem;
 
 }
 
@@ -139,6 +138,12 @@ select{
 }
 .away{
     width: 50%;
+}
+#away-h2{
+    color:red
+}
+#home-h2{
+    color:blue
 }
 
 body{
