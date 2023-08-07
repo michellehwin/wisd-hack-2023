@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
+import pandas as pd
 
 import json
 
@@ -22,7 +23,20 @@ def get_player_coords():
 
     if (game_id is None and play_rank is None):
         return "Please supply game_id and play_rank"
-    
+
     coord_file = open(f"./play_coords/{game_id}_coords_by_player.json")
     coord_json = json.load(coord_file)
     return coord_json[str(play_rank)]
+
+
+game_info_df = pd.read_csv("games_with_team_names.csv")
+
+
+@app.route("/game")
+def get_game_info():
+    game_id = request.args.get('game_id')
+    if (game_id is None):
+        return "Please supply game_id"
+
+    game_info_row = game_info_df[game_info_df['nbaId'] == int(game_id)].iloc[0]
+    return game_info_row.to_json()
