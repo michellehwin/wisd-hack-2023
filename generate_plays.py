@@ -339,6 +339,14 @@ for game_id in game_ids:
 # for each game, we identify the 10 best shots and then retrieve the data for the entire play
 # the play is then aggregated by player and added
 
+# for each game, we identify the 10 best shots and then retrieve the data for the entire play
+# the play is then aggregated by player and added
+
+player_info_file = open('./metadata/players.json')
+player_info = json.load(player_info_file)
+player_info_file.close()
+player_info = player_info["players"]
+
 for game_id in game_ids:
     e_t_df = pd.read_csv(f'./games/{game_id}/{game_id}_e_t.csv', index_col=0)
     Path('play_coords').mkdir(parents=True, exist_ok=True)
@@ -383,7 +391,7 @@ for game_id in game_ids:
 
         # method to aggregate the data for visualization, organizing by player instead of by play
         def coords_by_player(team, color):
-            player_dict = {}
+            player_dict = {}  # dict of all players during this play
 
             for _, row in play_coords_df.iterrows():
                 tracking_info = row[f'{team}Players_tracking']
@@ -392,15 +400,22 @@ for game_id in game_ids:
                     jersey = player['jersey']
                     playerId = player['playerId']
                     xyz = player['xyz']
+                    playerInfo = next(
+                        item for item in player_info if item["id"] == playerId)
+                    playerName = playerInfo['firstName'] + \
+                        " " + playerInfo['lastName']
 
                     # Append the coords to the list for the corresponding player
-                    if (jersey, playerId) not in player_dict:
-                        player_dict[(jersey, playerId)] = []
-                    player_dict[(jersey, playerId)].append(xyz)
+                    if playerId not in player_dict:
+                        player_dict[playerId] = {}
+                        player_dict[playerId]['xyz_list'] = []
+                    player_dict[playerId]['xyz_list'].append(xyz)
+                    player_dict[playerId]['jersey'] = jersey
+                    player_dict[playerId]['playerName'] = playerName
 
             # Converting the dictionary to a list of dictionaries for each player
-            all_coords_list = [{'type': team, 'number': jersey, 'color': color, 'coords': xyz_list} for (
-                jersey, playerId), xyz_list in player_dict.items()]
+            all_coords_list = [{'type': team, 'number': player_dict[player]['jersey'], 'color': color, 'coords': player_dict[player]['xyz_list'],
+                                'fullName': player_dict[player]['playerName']} for player in player_dict]
             return all_coords_list
 
         # method to aggregate the data for visualization, organizing by player instead of by play
