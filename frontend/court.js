@@ -36,17 +36,19 @@ gameDropdown.addEventListener("change", async e => {
     homeText.innerHTML = "HOME TEAM: " + gameData.homeTeamName;
     awayText.innerHTML = "AWAY TEAM: " + gameData.awayTeamName;
 
-    playerData = await getPlayerCoords(game_id, rank);
+    let playData = await getPlayerCoords(game_id, rank);
+    let playerCoords = playData.player_coords;
     await loadCourt();
-    renderPlayers(playerData);
+    renderPlayers(playerCoords);
 }, false);
 
 rankDropdown.addEventListener("change", async e => {
     const game_id = gameDropdown.value;
     const rank = e.target.value;
-    playerData = await getPlayerCoords(game_id, rank);
+    let playData = await getPlayerCoords(game_id, rank);
+    let playerCoords = playData.player_coords;
     await loadCourt();
-    renderPlayers(playerData);
+    renderPlayers(playerCoords);
 
 }, false);
 
@@ -70,7 +72,7 @@ async function loadCourt() {
 
 
 await loadCourt();
-renderPlayers(playerData);
+renderPlayers(playerData.player_coords);
 
 function renderPlayers(playerData) {
 
