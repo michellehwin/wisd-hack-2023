@@ -49,7 +49,6 @@ rankDropdown.addEventListener("change", async e => {
     let playerCoords = playData.player_coords;
     await loadCourt();
     renderPlayers(playerCoords);
-
 }, false);
 
 const svg = d3.select(".court")
@@ -74,6 +73,56 @@ async function loadCourt() {
 await loadCourt();
 renderPlayers(playerData.player_coords);
 
+function playPaths(playerData) {
+    let line = d3.line()
+        .x(function (d) { return xScale(d[0]); })
+        .y(function (d) { return yScale(d[1]); });
+
+    const circleGroup = svg.append("g");
+    playerData.forEach(player => {
+        let path = circleGroup.append("path")
+            .datum(player.coords)
+            .attr("class", "line").attr("d", line)
+            .attr("fill", "none")
+            .style("stroke", "#CC0000")
+            .style("stroke-width", "2");
+        let pathLen = path.node().getTotalLength();
+        let offset = 0;
+        path.attr({
+            "stroke-dasharray": pathLen + " " + pathLen,
+            "stroke-dashoffset": offset
+        });
+        let circle = circleGroup.append("circle")
+            .attr(
+                'r', 15)
+            .attr('transform', function () {
+                let p = path.node().getPointAtLength(pathLen - offset);
+                return `translate(${p.x}, ${p.y})`;
+            })
+            .attr("fill", player.color)
+            ;
+
+        path.transition()
+            .ease(d3.easeLinear)
+            .duration(2000)
+            .attrTween("stroke-dashoffset", function (d, i) {
+                return function (t) {
+                    return pathLen * (1 - t);
+                };
+            });
+
+        circle.transition()
+            .ease(d3.easeLinear)
+            .duration(2000)
+            .attrTween("transform", function (d, i) {
+                return function (t) {
+                    var p = path.node().getPointAtLength(pathLen * t);
+                    return "translate(" + [p.x, p.y] + ")";
+                };
+            });
+    });
+}
+
 function renderPlayers(playerData) {
 
     const circleGroup = svg.append("g");
@@ -84,6 +133,7 @@ function renderPlayers(playerData) {
             .attr("cx", (d) => xScale(d.coords[0][0]))
             .attr("cy", (d) => yScale(d.coords[0][1]))
             .attr("fill", (d) => d.color));
+
     const textLabels = circleGroup.selectAll("text")
         .data(playerData)
         .join("text")
@@ -139,57 +189,42 @@ function updatePlayerText(playerData) {
 
 
 
-function moveCircles(circles) {
+function moveCircles(circles, index) {
     circles
-        .attr("cx", (d) => xScale(d.coords[0][0]))
-        .attr("cy", (d) => yScale(d.coords[0][1]))
         .each(function (d) {
             d3.select(this)
-                .interrupt()
-                .attr("cx", (d) => xScale(d.coords[0][0]))
-                .attr("cy", (d) => yScale(d.coords[0][1]));
-
-            for (let i = 0; i < d.coords.length; i++) {
-                d3.select(this).transition()
-                    .ease(d3.easeLinear)
-                    .ease(d3.easeSinOut)
-                    .duration(3000)
-                    .attr("cx", xScale(d.coords[i][0]))
-                    .attr("cy", yScale(d.coords[i][1]));
-                // console.log(i)
-                // console.log(d.coords[i][0])
-                // console.log(d.coords[i][1])
-            }
+                .transition()
+                .duration(500)
+                .attr("cx", xScale(d.coords[index][0]))
+                .attr("cy", yScale(d.coords[index][1]))
+                .on("end", () => {
+                    if (index < d.coords.length - 1)
+                        moveCircles(circles, index + 1);
                 });
+        })
+        ;
 };
 
-function moveText(textLabels) {
+function moveText(textLabels, index) {
+    console.log("moving text");
     textLabels
-        .attr("x", (d) => xScale(d.coords[0][0]))
-        .attr("y", (d) => yScale(d.coords[0][1]))
         .each(function (d) {
             d3.select(this)
-                .attr("x", (d) => xScale(d.coords[0][0]))
-                .attr("y", (d) => yScale(d.coords[0][1]));
-
-            for (let i = 0; i < d.coords.length; i++) {
-                d3.select(this).transition()
-                    .duration(3000)
-                    .attr("x", xScale(d.coords[i][0]))
-                    .attr("y", yScale(d.coords[i][1]))
-                    .ease(d3.easeLinear)
-                    .ease(d3.easeSinOut);
-                // console.log(i);
-                // console.log(d.coords[i][0]);
-                // console.log(d.coords[i][1]);
-            }
+                .transition()
+                .duration(500)
+                .attr("x", xScale(d.coords[index][0]))
+                .attr("y", yScale(d.coords[index][1]))
+                .on("end", () => {
+                    if (index < d.coords.length - 1)
+                        moveText(textLabels, index + 1);
+                });
         });
 }
 const replayButton = d3.select("button");
 
 replayButton.on("click", async function () {
     await loadCourt();
-    renderPlayers(playerData);
+    renderPlayers(playerData.player_coords);
     console.log("Clicking");
 });
 
